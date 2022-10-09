@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import com.example.crudoperation.R
+import com.example.crudoperation.fragments.HomeFragmentDirections
 
 class MainViewModel: ViewModel() {
     lateinit var arrayList:ArrayList<PersonModel>
@@ -15,8 +17,10 @@ class MainViewModel: ViewModel() {
     var editData:Boolean = false
     var position = 0
     var showDeleteDialog = MutableLiveData<Boolean>()
+    var addViewButton = MutableLiveData<Boolean>()
 
     init {
+        addViewButton.value = false
         showDeleteDialog.value =false
         personArrayList = MutableLiveData(ArrayList())
         personData.value = PersonModel()
@@ -39,7 +43,10 @@ class MainViewModel: ViewModel() {
         personData.postValue(personModel)
         this.position = position
         editData = true
-        view.findNavController().navigate(R.id.action_homeFragment_to_personalDetail)
+        val action = HomeFragmentDirections.actionHomeFragmentToPersonalDetail()
+        action.header = "Personal Detail Edit"
+        action.addButton = false
+        view.findNavController().navigate(action)
     }
 
     fun deletePerson(position: Int):Boolean{

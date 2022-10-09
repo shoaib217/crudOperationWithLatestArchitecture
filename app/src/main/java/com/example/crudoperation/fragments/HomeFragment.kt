@@ -1,21 +1,25 @@
 package com.example.crudoperation.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.HandlerCompat.postDelayed
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.crudoperation.MainActivity
 import com.example.crudoperation.adapter.PersonAdapter
 import com.example.crudoperation.databinding.FragmentHomeBinding
 import com.example.crudoperation.viewmodel.MainViewModel
 import com.example.crudoperation.viewmodel.PersonModel
+import java.util.concurrent.Executor
 
 
 class HomeFragment : Fragment() {
@@ -40,10 +44,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        model.addViewButton.postValue(false)
         binding.floatingActionButton.setOnClickListener {
             model.editData = false
-            val action = HomeFragmentDirections.actionHomeFragmentToPersonalDetail("Personal Detail from arg")
+            val action = HomeFragmentDirections.actionHomeFragmentToPersonalDetail()
+            action.header = "Personal Detail"
+            action.addButton = true
             findNavController().navigate(action)
         }
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
@@ -52,6 +58,14 @@ class HomeFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            Handler().postDelayed({
+                model.arrayList = ArrayList()
+                setAdapter(model.arrayList)
+                binding.swipeRefresh.isRefreshing = false
+            }, 1000)
+        }
 
         model.personArrayList.observe(viewLifecycleOwner){
             if (it != null && it.isNotEmpty()){

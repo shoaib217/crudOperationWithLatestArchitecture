@@ -15,7 +15,12 @@
             app:destination="@id/employeeFragment" />
         <argument
             android:name="header"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="addButton"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment android:id="@+id/employeeFragment"
         android:name="com.example.crudoperation.fragments.EmployeeFragment"
