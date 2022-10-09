@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/crudnavigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/personalDetail"
+        android:name="com.example.crudoperation.fragments.PersonalDetailFragment"
+        android:label="{header}"
+        tools:layout="@layout/fragment_personal_detail">
+        <action
+            android:id="@+id/action_personalDetail_to_placeholder"
+            app:destination="@id/employeeFragment" />
+        <argument
+            android:name="header"
+            app:argType="string" />
+    </fragment>
+    <fragment android:id="@+id/employeeFragment"
+        android:name="com.example.crudoperation.fragments.EmployeeFragment"
+        tools:layout="@layout/fragment_employee"/>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.crudoperation.fragments.HomeFragment"
+        android:label="Crud Operation"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_personalDetail"
+            app:destination="@id/personalDetail" />
+    </fragment>
+</navigation>
