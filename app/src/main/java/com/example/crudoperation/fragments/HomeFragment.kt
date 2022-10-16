@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.HandlerCompat.postDelayed
@@ -27,6 +28,7 @@ class HomeFragment : Fragment() {
     val model : MainViewModel by activityViewModels()
     var mainActivity : MainActivity? = null
     var personAdapter: PersonAdapter? = null
+    var personArray:ArrayList<PersonModel>?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,9 +63,8 @@ class HomeFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener {
             Handler().postDelayed({
-                model.arrayList = ArrayList()
-                setAdapter(model.arrayList)
                 binding.swipeRefresh.isRefreshing = false
+                showDailog()
             }, 1000)
         }
 
@@ -73,6 +74,39 @@ class HomeFragment : Fragment() {
                 setAdapter(it)
             }
         }
+
+        model.searchText.observe(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                personArray = ArrayList()
+                for(i in model.personArrayList.value?.indices!!){
+                    if (model.personArrayList.value!![i].name.contains(it)){
+                        personArray!!.add(model.personArrayList.value!![i])
+                    }
+                }
+                setAdapter(personArray!!)
+            }
+        }
+
+        binding.searchView2.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText?.isNotEmpty()!!){
+                    personArray = ArrayList()
+                    for(i in model.personArrayList.value?.indices!!){
+                        if (model.personArrayList.value!![i].name.contains(newText.toString())){
+                            personArray!!.add(model.personArrayList.value!![i])
+                        }
+                    }
+                    setAdapter(personArray!!)
+                }
+                return false
+            }
+
+        })
         model.showDeleteDialog.observe(viewLifecycleOwner){
             if (it){
                 showConfirmDialog()
@@ -80,6 +114,21 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    private fun showDailog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Crud Operation")
+        builder.setMessage("Are You Sure You Want To Delete All Saved Data?")
+
+        builder.setPositiveButton("Yes"){dailog,which ->
+            dailog.dismiss()
+            model.arrayList = ArrayList()
+            setAdapter(model.arrayList)
+        }
+        builder.setNegativeButton("No"){ dailog ,_->
+            dailog.dismiss()
+        }
+        builder.show()    }
 
     private fun showConfirmDialog() {
         val builder = AlertDialog.Builder(requireContext())

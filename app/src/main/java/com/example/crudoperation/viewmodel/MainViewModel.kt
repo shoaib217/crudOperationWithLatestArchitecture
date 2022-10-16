@@ -3,6 +3,7 @@ package com.example.crudoperation.viewmodel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.Navigation.findNavController
@@ -18,8 +19,11 @@ class MainViewModel: ViewModel() {
     var position = 0
     var showDeleteDialog = MutableLiveData<Boolean>()
     var addViewButton = MutableLiveData<Boolean>()
+    val showToast = MutableLiveData<String>()
+    val searchText = MutableLiveData<String>()
 
     init {
+        showToast.value = ""
         addViewButton.value = false
         showDeleteDialog.value =false
         personArrayList = MutableLiveData(ArrayList())
@@ -27,16 +31,33 @@ class MainViewModel: ViewModel() {
     }
 
     fun personSave(view: View){
-        val data = personData.value
-        Log.d("crud", "personSave:${data}")
-        if (editData){
-            data?.let { arrayList.set(position, it) }
-        }else{
-            arrayList.add(data!!)
+        if (validated()){
+            val data = personData.value
+            Log.d("crud", "personSave:${data}")
+            if (editData){
+                data?.let { arrayList.set(position, it) }
+            }else{
+                arrayList.add(data!!)
+            }
+            personArrayList.postValue(arrayList)
+            view.findNavController().popBackStack()
+            personData.postValue(PersonModel())
         }
-        personArrayList.postValue(arrayList)
-        view.findNavController().popBackStack()
-        personData.postValue(PersonModel())
+    }
+
+    private fun validated(): Boolean {
+        var isValid = true
+        if (personData.value!!.name.isEmpty()){
+            showToast.postValue("Name Cannot Be Blank")
+            isValid = false
+        }else if (personData.value!!.mobile.isEmpty()){
+            showToast.postValue("Mobile Number Cannot Be Blank")
+            isValid = false
+        }else if (personData.value!!.email.isEmpty()){
+            showToast.postValue("Email Cannot Be Blank")
+            isValid = false
+        }
+        return isValid
     }
 
     fun editPerson(personModel: PersonModel,view: View,position:Int){

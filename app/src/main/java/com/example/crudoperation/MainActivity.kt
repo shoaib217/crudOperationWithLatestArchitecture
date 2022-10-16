@@ -3,6 +3,7 @@ package com.example.crudoperation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,12 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar
         binding.toolbar.setupWithNavController(navController,appBarConfig)
         model.arrayList = ArrayList()
+
+        model.showToast.observe(this){
+            if(it.isNotEmpty()){
+                Toast.makeText(this,it,Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 
