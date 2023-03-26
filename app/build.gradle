@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "com.example.crudoperation"
         minSdk 25
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -40,7 +40,8 @@ android {
 dependencies {
     def lifecycle_version = "2.6.0-alpha02"
     def arch_version = "2.1.0"
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

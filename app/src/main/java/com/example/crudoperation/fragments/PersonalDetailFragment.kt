@@ -1,5 +1,6 @@
 package com.example.crudoperation.fragments
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.crudoperation.R
 import com.example.crudoperation.databinding.FragmentPersonalDetailBinding
 import com.example.crudoperation.viewmodel.MainViewModel
+import com.github.dhaval2404.imagepicker.ImagePicker
 
 class PersonalDetailFragment : Fragment() {
     lateinit var binding: FragmentPersonalDetailBinding
@@ -46,6 +48,21 @@ class PersonalDetailFragment : Fragment() {
         val args :PersonalDetailFragmentArgs by navArgs()
         Log.d("TAG", "onViewCreated1: ${args.addButton}")
         model.addViewButton.postValue(args.addButton)
+        binding.ivImage.setOnClickListener {
+            pickImage()
+        }
+        model.pImage.observe(viewLifecycleOwner){
+            binding.ivImage.setImageBitmap(BitmapFactory.decodeFile(it))
+        }
+    }
+
+    private fun pickImage(){
+        ImagePicker.Builder(this).apply {
+            crop()
+            compress(1024)
+            maxResultSize(1080, 1080)
+            start()
+        }
     }
 
 }

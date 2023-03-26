@@ -17,8 +17,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="352dp"
+            android:layout_height="464dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
@@ -48,14 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="132dp"
+                android:layout_marginEnd="30dp"
+                android:hint="Please Enter Your Mobile"
                 android:inputType="number"
                 android:maxLength="10"
-                android:layout_marginEnd="30dp"
-                android:text="@={viewModel.personData.mobile}"
-
-                android:hint="Please Enter Your Mobile"
 
                 android:paddingStart="5dp"
+
+                android:text="@={viewModel.personData.mobile}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,15 +69,30 @@
                 android:layout_marginTop="220dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
-                android:text="@={viewModel.personData.email}"
-
                 android:hint="Please Enter Your Email"
+
                 android:paddingStart="5dp"
+                android:text="@={viewModel.personData.email}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="52dp"
+                android:layout_marginEnd="139dp"
+                android:layout_marginBottom="47dp"
+                android:src="@drawable/capture"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -89,9 +104,11 @@
             android:layout_marginStart="162dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="162dp"
+            android:layout_marginBottom="153dp"
             android:background="#56BC5A"
-            android:text="Save"
             android:onClick="@{(view) -> viewModel.personSave(view)}"
+            android:text="Save"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"

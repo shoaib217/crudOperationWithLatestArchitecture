@@ -16,6 +16,7 @@ class MainViewModel: ViewModel() {
     var personArrayList = MutableLiveData<ArrayList<PersonModel>>()
     val personData = MutableLiveData<PersonModel>()
     var editData:Boolean = false
+    var pImage= MutableLiveData<String>()
     var position = 0
     var showDeleteDialog = MutableLiveData<Boolean>()
     var addViewButton = MutableLiveData<Boolean>()
